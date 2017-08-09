@@ -74,23 +74,21 @@
         cell.accessoryType = UITableViewCellAccessoryNone;
         [self.currentUser removeFriend:user];
     } else {
-        Boolean shouldAdd = true;
-        for (User *tempUser in self.currentUser.friends) {
-            if (tempUser.username == user.username) {
-                shouldAdd = false;
-            }
-        }
-        if (shouldAdd) {
-            cell.accessoryType = UITableViewCellAccessoryCheckmark;
-            [self.currentUser addFriend:user];
-        }
+        cell.accessoryType = UITableViewCellAccessoryCheckmark;
+        [self.currentUser addFriend:user];
     }
 }
 
 #pragma mark - Helper methods
 
 - (BOOL)isFriend:(User *)user {
-  return [self.currentUser.friends containsObject:user];
+    Boolean shouldBeAdded = false;
+    for (User *tempUser in self.currentUser.friends) {
+        if (tempUser.username == user.username) {
+            shouldBeAdded = true;
+        }
+    }
+    return shouldBeAdded;
 }
 
 @end
