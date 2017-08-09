@@ -73,11 +73,18 @@
     if ([self isFriend:user]) {
         cell.accessoryType = UITableViewCellAccessoryNone;
         [self.currentUser removeFriend:user];
+    } else {
+        Boolean shouldAdd = true;
+        for (User *tempUser in self.currentUser.friends) {
+            if (tempUser.username == user.username) {
+                shouldAdd = false;
+            }
+        }
+        if (shouldAdd) {
+            cell.accessoryType = UITableViewCellAccessoryCheckmark;
+            [self.currentUser addFriend:user];
+        }
     }
-    else {
-        cell.accessoryType = UITableViewCellAccessoryCheckmark;
-        [self.currentUser addFriend:user];
-    }    
 }
 
 #pragma mark - Helper methods
