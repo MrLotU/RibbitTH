@@ -35,7 +35,7 @@ static NSInteger identifier = 1;
   if ( user ) {
     user.username = username;
     user.objectId = [NSString stringWithFormat:@"%ld",(long)++identifier];
-  }
+  }  
   return user;
 }
 
@@ -44,9 +44,12 @@ static NSInteger identifier = 1;
 }
 
 - (void)removeFriend:(User *)friend {
-  if ([self.friends containsObject:friend]) {
-    [self.friendsMutable removeObject:friend];
-  }
+    for (User *tempUser in self.friendsMutable) {
+        if (tempUser.username == friend.username) {
+            [self.friendsMutable removeObject:tempUser];
+            return;
+        }
+    }
 }
 
 - (NSArray*) friends {
