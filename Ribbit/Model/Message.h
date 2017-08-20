@@ -13,7 +13,7 @@
 
 @interface Message : NSObject
 
-@property (strong, nonatomic) File *file;
+@property (weak, nonatomic) File *file;
 @property (strong, nonatomic) NSArray *recipients;
 
 @property (copy, nonatomic) NSString *fileType;

@@ -21,6 +21,19 @@
 {
     [super viewDidLoad];
     self.recipients = [[NSMutableArray alloc] init];
+    self.imagePicker = [[UIImagePickerController alloc] init];
+    self.imagePicker.delegate = self;
+    self.imagePicker.allowsEditing = NO;
+    self.imagePicker.videoMaximumDuration = 10;
+    
+    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+        self.imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
+    }
+    else {
+        self.imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+    }
+    
+    self.imagePicker.mediaTypes = [UIImagePickerController availableMediaTypesForSourceType:self.imagePicker.sourceType];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -30,21 +43,8 @@
     [self.tableView reloadData];
   
     if (self.image == nil && [self.videoFilePath length] == 0) {
-        self.imagePicker = [[UIImagePickerController alloc] init];
-        self.imagePicker.delegate = self;
-        self.imagePicker.allowsEditing = NO;
-        self.imagePicker.videoMaximumDuration = 10;
-        
-        if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
-            self.imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
-        }
-        else {
-            self.imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-        }
-        
-        self.imagePicker.mediaTypes = [UIImagePickerController availableMediaTypesForSourceType:self.imagePicker.sourceType];
-        
-        [self presentViewController:self.imagePicker animated:NO completion:nil];
+        NSLog(@"%@", self.imagePicker);
+        [self.tabBarController presentViewController:self.imagePicker animated:NO completion:nil];
     }    
 }
 
@@ -143,15 +143,18 @@
 
 - (IBAction)send:(id)sender {
     if (self.image == nil && [self.videoFilePath length] == 0) {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Try again!"
-                                                            message:@"Please capture or select a photo or video to share!"
-                                                           delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        [alertView show];
-        [self presentViewController:self.imagePicker animated:NO completion:nil];
+        UIAlertController *alertView = [UIAlertController alertControllerWithTitle:@"Try again" message:@"Please capture or select a photo or video to share!" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction* okButton = [UIAlertAction
+                                    actionWithTitle:@"Ok"
+                                    style:UIAlertActionStyleDefault
+                                    handler:^(UIAlertAction * action) {
+                                        [self presentViewController:self.imagePicker animated:NO completion:nil];
+                                    }];
+        [alertView addAction:okButton];
+        [self presentViewController:alertView animated:YES completion:nil];
     }
     else {
         [self uploadMessage];
-        [self.tabBarController setSelectedIndex:0];
     }
 }
 
@@ -177,12 +180,14 @@
     File *file = [File fileWithName:fileName data:fileData];
     [file saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         if (error) {
-            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"An error occurred!"
-                                                                message:@"Please try sending your message again."
-                                                               delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-            [alertView show];
-        }
-        else {
+            UIAlertController *alertView = [UIAlertController alertControllerWithTitle:@"An error occurred!" message:@"Please try sending your message again." preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction* okButton = [UIAlertAction
+                                       actionWithTitle:@"Ok"
+                                       style:UIAlertActionStyleDefault
+                                       handler: nil];
+            [alertView addAction:okButton];
+            [self presentViewController:alertView animated:YES completion:nil];
+        } else {
             Message *message = [[Message alloc] init];
             message.file = file;
             message.fileType = fileType;
@@ -192,14 +197,17 @@
           
             [message saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                 if (error) {
-                    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"An error occurred!"
-                                                                        message:@"Please try sending your message again."
-                                                                       delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-                    [alertView show];
-                }
-                else {
+                    UIAlertController *alertView = [UIAlertController alertControllerWithTitle:@"An error occurred!" message:@"Please try sending your message again." preferredStyle:UIAlertControllerStyleAlert];
+                    UIAlertAction* okButton = [UIAlertAction
+                                               actionWithTitle:@"Ok"
+                                               style:UIAlertActionStyleDefault
+                                               handler: nil];
+                    [alertView addAction:okButton];
+                    [self presentViewController:alertView animated:YES completion:nil];
+                } else {
                     // Everything was successful!
                     [self reset];
+                    [self.tabBarController setSelectedIndex:0];
                 }
             }];
         }
@@ -209,18 +217,9 @@
 - (void)reset {
     self.image = nil;
     self.videoFilePath = nil;
-    [self.recipients removeAllObjects];
+    self.recipients = nil;
+    self.friends = nil;
 }
 
-- (UIImage *)resizeImage:(UIImage *)image toWidth:(float)width andHeight:(float)height {
-    CGSize newSize = CGSizeMake(width, height);
-    CGRect newRectangle = CGRectMake(0, 0, width, height);
-    UIGraphicsBeginImageContext(newSize);
-    [self.image drawInRect:newRectangle];
-    UIImage *resizedImage = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    
-    return resizedImage;
-}
 
 @end
