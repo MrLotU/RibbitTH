@@ -81,6 +81,10 @@
 
 #pragma mark - Helper methods
 
+/*
+Edited isFriend to compare usernames because memory IDs changed. This fixed both #3 and #4
+*/
+
 - (BOOL)isFriend:(User *)user {
     Boolean shouldBeAdded = false;
     for (User *tempUser in self.currentUser.friends) {

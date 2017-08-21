@@ -83,15 +83,11 @@
         // File type is video
         File *videoFile = self.selectedMessage.file;
         [self.moviePlayer setPlayer:[[AVPlayer alloc] initWithURL:videoFile.fileURL]];
-//        self.moviePlayer.contentURL = videoFile.fileURL;
         [self presentViewController:self.moviePlayer animated:true completion:nil];
         [self.moviePlayer.player play];
-//        [self.moviePlayer prepareToPlay];
-//        [self.moviePlayer thumbnailImageAtTime:0 timeOption:MPMovieTimeOptionNearestKeyFrame];
-        
-        // Add it to the view controller so we can see it
-//        [self.view addSubview:self.moviePlayer.view];
-//        [self.moviePlayer setFullscreen:YES animated:YES];
+        /*
+         Fixed deprecated API issue by updating to AVKit
+        */
     }
     
     // Delete it!

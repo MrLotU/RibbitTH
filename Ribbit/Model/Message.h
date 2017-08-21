@@ -13,6 +13,7 @@
 
 @interface Message : NSObject
 
+//Made this a weak refference to fix the memory leak
 @property (weak, nonatomic) File *file;
 @property (strong, nonatomic) NSArray *recipients;
 
