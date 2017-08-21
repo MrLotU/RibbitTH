@@ -12,7 +12,6 @@
 		8D2A01AC17AB0EEE00A43140 /* EditFriendsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D2A01A917AB0EEE00A43140 /* EditFriendsViewController.m */; };
 		8D2A01AD17AB0EEE00A43140 /* FriendsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D2A01AB17AB0EEE00A43140 /* FriendsViewController.m */; };
 		8D5ED96317AFFE300079548F /* CameraViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D5ED96217AFFE300079548F /* CameraViewController.m */; };
-		8D5ED97817B04E060079548F /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D5ED97717B04E050079548F /* MediaPlayer.framework */; };
 		8D5ED97D17B052130079548F /* icon_image.png in Resources */ = {isa = PBXBuildFile; fileRef = 8D5ED97917B052130079548F /* icon_image.png */; };
 		8D5ED97E17B052130079548F /* icon_image@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8D5ED97A17B052130079548F /* icon_image@2x.png */; };
 		8D5ED97F17B052130079548F /* icon_video.png in Resources */ = {isa = PBXBuildFile; fileRef = 8D5ED97B17B052130079548F /* icon_video.png */; };
@@ -121,7 +120,6 @@
 			files = (
 				0881A1121F4AD0A700600BE5 /* AVKit.framework in Frameworks */,
 				0881A1101F4AD0A100600BE5 /* AVFoundation.framework in Frameworks */,
-				8D5ED97817B04E060079548F /* MediaPlayer.framework in Frameworks */,
 				8DCDADE517A82CE5008AAA28 /* AudioToolbox.framework in Frameworks */,
 				8DCDADE617A82CE5008AAA28 /* CFNetwork.framework in Frameworks */,
 				8DCDADE717A82CE5008AAA28 /* CoreLocation.framework in Frameworks */,
