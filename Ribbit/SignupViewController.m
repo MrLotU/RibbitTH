@@ -34,10 +34,6 @@
                                    handler: nil];
         [alertView addAction:okButton];
         [self presentViewController:alertView animated:YES completion:nil];
-//        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Oops!"
-//                                                            message:@"Make sure you enter a username, password, and email address!"
-//                                                           delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-//        [alertView show];
     }
     else {
         User *newUser = [User currentUser];
